@@ -1,15 +1,15 @@
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class UserBase(BaseModel):
     username: str
-    email: str
+    email: EmailStr
 
 
 class UserCreate(UserBase):
-    pass
+    password: str
 
 
 class UserResponse(UserBase):   # Ответ
@@ -17,4 +17,16 @@ class UserResponse(UserBase):   # Ответ
 
     model_config = ConfigDict(from_attributes=True)     # Подтянет каждый атрибут на место своих значений
 
+class LoginRequest(BaseModel):
+    """Запрос на логин."""
+    username: str
+    password: str
 
+class TokenResponse(BaseModel):
+    """Ответ с токенами при логине или рефреше."""
+    access_token: str
+    refresh_token: str
+
+class RefreshResponse(BaseModel):
+    """Запрос на обновление access token."""
+    refresh_token: str

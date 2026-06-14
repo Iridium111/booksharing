@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base
 from app.models.mixins import TimeStampMixin
@@ -7,5 +7,8 @@ from app.models.mixins import TimeStampMixin
 class User(Base, TimeStampMixin):
     __tablename__ = 'users'
 
-    username: Mapped[str]
-    email: Mapped[str]
+    username: Mapped[str] = mapped_column(unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(unique=True, nullable=False)
+    hashed_password: Mapped[str] = mapped_column(nullable=False)
+    refresh_token: Mapped[str | None] = mapped_column(nullable=True, default=None)
+

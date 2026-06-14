@@ -29,9 +29,25 @@ class UserRepository:
         result = await session.execute(stmt)
         return result.scalar_one_or_none() # либо найдем, либо None
 
+    @staticmethod
+    async def find_by_email(session: AsyncSession, email: str) -> User | None:
+        stmt = select(User).where(User.email == email)
+        result = await session.execute(stmt)
+        return result.scalar_one_or_none()
 
     @staticmethod
     async def find_all(session: AsyncSession) -> Sequence[User]:
         stmt = select(User)
         result = await session.execute(stmt)
         return result.scalars().all()
+
+    @staticmethod
+    async def update_refresh_token(session: AsyncSession,
+                                   user_id: UUID,
+                                   refresh_token: str | None)-> None:
+        user = await session.get(User, user_id)
+        if user:
+            user.refresh_token = refresh_token
+            await session.commit()
+
+
