@@ -3,11 +3,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from uuid import UUID
 
 from app.core.deps import get_current_user
 from app.models import User
 from app.repositories.user import UserRepository
-from app.core.security import hash_password, verify_password, create_access_token, create_refresh_token
+from app.core.security import hash_password, verify_password, create_access_token, create_refresh_token, decode_token
 
 from starlette import status
 
@@ -56,9 +57,6 @@ async def login(
         session: AsyncSession = Depends(get_async_session)
 ):
     user = await UserRepository.find_by_username(session, username=credentials.username)
-    # stmt = select(User).where(User.email == credentials.email)
-    # result = await session.execute(stmt)
-    # user = result.scalars().first()
 
     if user is None:
         raise HTTPException(
@@ -96,18 +94,51 @@ async def refresh(
         request: RefreshResponse,
         session: AsyncSession = Depends(get_async_session)
 ):
-    """
-            Обновляем access token, используя refresh token.
+    try:
+        payload = decode_token(request.refresh_token)
+    except Exception:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid refresh token",
+        )
 
-            Это называется RT Rotation:
-            - Клиент отправляет старый RT
-            - Сервер проверяет RT в БД
-            - Выдаём новые AT и старый RT
+    user_id = payload.get("sub")
+    if not user_id:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid refresh token",
+        )
 
-            Нужно добавить Depends получения пользователя
-            сравнить токены
-            если ок: новый acces-token, старый refresh-token
-            если отличаются - ошибка
+    token_type = payload.get("type")
+    if token_type != "refresh":
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid refresh token",
+        )
+    try:
+        user_uuid = UUID(user_id)
+    except ValueError:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid refresh token",
+        )
 
-            """
-    pass
+    existing_user = await UserRepository.find_by_uuid(session, user_id=user_uuid)
+    if existing_user is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid refresh token",
+        )
+
+    if request.refresh_token != existing_user.refresh_token:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid refresh token",
+        )
+
+    new_access_token = create_access_token({"sub": str(existing_user.id)})
+
+    return TokenResponse(
+        access_token=new_access_token,
+        refresh_token=request.refresh_token
+    )

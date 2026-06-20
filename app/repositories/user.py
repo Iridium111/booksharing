@@ -10,7 +10,10 @@ from app.schemas.user import UserCreate
 
 class UserRepository:
     @staticmethod
-    async def create(session: AsyncSession, user_data: UserCreate) -> User:
+    async def create(
+            session: AsyncSession,
+            user_data: UserCreate
+    )-> User:
         db_user = User(**user_data.model_dump()) # User(username="Alex", email="alex@mail.ru")
         session.add(db_user)
         await session.commit()
