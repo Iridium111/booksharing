@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import session
 from app.models.user import User
 from app.schemas.user import UserCreate
+from app.core.security import hash_password
 
 
 class UserRepository:
@@ -14,10 +15,12 @@ class UserRepository:
             session: AsyncSession,
             user_data: UserCreate
     )-> User:
-        db_user = User(**user_data.model_dump()) # User(username="Alex", email="alex@mail.ru")
-        session.add(db_user)
+        user_dict = user_data.model_dump(exclude={"password"})
+        data_user = User(**user_dict,
+                         hashed_password=hash_password(user_data.password))
+        session.add(data_user)
         await session.commit()
-        return db_user
+        return data_user
 
     @staticmethod
     async def find_by_username(session: AsyncSession, username: str)-> User | None:

@@ -1,11 +1,11 @@
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, EmailStr
+from pydantic import BaseModel, ConfigDict
 
 
 class UserBase(BaseModel):
     username: str
-    email: EmailStr
+    email: str
 
 
 class UserCreate(UserBase):
