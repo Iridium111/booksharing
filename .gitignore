@@ -6,3 +6,5 @@ __pycache__/
 .vscode/
 .DS_Store
 alembic/versions/*.pyc
+/.raw.txt
+/.Схема.txt
