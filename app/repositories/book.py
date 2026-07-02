@@ -25,7 +25,9 @@ class BookRepository:
             session: AsyncSession,
             author: str | None = None,
             owner: str | None = None,
-            genre: str | None = None
+            genre: str | None = None,
+            limit: int = 10,
+            offset: int = 0
     ) -> Sequence[Book]:
         stmt = select(Book).options(selectinload(Book.user))
 
@@ -41,6 +43,8 @@ class BookRepository:
             """ Поиск по жанру книги. """
             stmt = stmt.where(Book.genre.ilike(genre))
 
+        stmt = stmt.order_by(Book.title)
+        stmt = stmt.limit(limit).offset(offset)
         result = await session.execute(stmt)
         return result.scalars().all()
 
@@ -77,4 +81,14 @@ class BookRepository:
         await session.delete(db_book)
         await session.commit()
 
+        return db_book
+
+    @staticmethod
+    async def set_cover_url(
+            session: AsyncSession,
+            db_book: Book,
+            cover_url: str,
+    ) -> Book:
+        db_book.cover_url = cover_url
+        await session.commit()
         return db_book

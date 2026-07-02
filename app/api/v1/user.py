@@ -48,8 +48,8 @@ async def upload(files: Annotated[list[UploadFile], File()], file: UploadFile):
     for f in files:
         print(f.filename)
 
-    # return {"filename": file.filename, "content_type": file.content_type,
-    #         "file_size": file.size}
+    return {"filename": file.filename, "content_type": file.content_type,
+            "file_size": file.size}
 
 """
 типы HTTP-запросов

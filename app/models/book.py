@@ -13,6 +13,7 @@ class Book(Base, TimeStampMixin):
     title: Mapped[str] = mapped_column(nullable=False)
     author: Mapped[str] = mapped_column(nullable=False)
     genre: Mapped[str] = mapped_column(nullable=False)
+    cover_url: Mapped[str] = mapped_column(nullable=True)
     user_id: Mapped[UUID] = mapped_column(ForeignKey("users.id"), nullable=False)
 
     user = relationship("User", back_populates="books")
