@@ -51,14 +51,3 @@ async def upload(files: Annotated[list[UploadFile], File()], file: UploadFile):
     return {"filename": file.filename, "content_type": file.content_type,
             "file_size": file.size}
 
-"""
-типы HTTP-запросов
-GET - получить данные с сервера (просмотр)
-POST - отправить данные на сервер 
-PATCH - частично изменить объект на сервере 
-PUT - полностью обновить или заменить объект на сервере 
-DELETE - удалить объект на сервере 
-"""
-
-"domen.ru/api/v1/users"
-

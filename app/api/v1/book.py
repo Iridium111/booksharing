@@ -2,7 +2,7 @@ import os.path
 import uuid
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, status, UploadFile, File
+from fastapi import APIRouter, Depends, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException
 from app.models import User

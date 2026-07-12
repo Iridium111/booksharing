@@ -5,7 +5,6 @@ from app.admin.admin import admin
 from app.api.router import api_v1_router
 from app.core.errror_handlers import bookshare_exception_handler
 from app.core.exceptions import BookShareBaseException
-from starlette.exceptions import HTTPException as StarletteHTTPException
 from app.core.middleware import ErrorHandlingMiddleware
 
 app = FastAPI(

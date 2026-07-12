@@ -60,7 +60,7 @@ async def login(
 
     if user is None:
         raise HTTPException(
-            status_code=401,    # 401 - пользователь не авторизован/неверные данные входа.
+            status_code=401,
             detail="Invalid email or password",
         )
 

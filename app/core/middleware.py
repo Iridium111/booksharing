@@ -1,11 +1,10 @@
 import uuid
 
-from starlette.middleware.base import BaseHTTPMiddleware    # FastAPI обертка над starlette, на уровень ниже
+from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
 from time import time
 
-from app.core.exceptions import BookShareBaseException
 def create_request_id() -> str:
     """генерация уникального индификатора"""
     return f"req-{uuid.uuid4().hex[:8]}"

@@ -6,9 +6,6 @@ from datetime import datetime, timezone, timedelta
 import jwt
 import hashlib
 from app.core.config import settings
-from passlib.context import CryptContext
-
-# pwd_contex = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def hash_password(password: str) -> str:
@@ -17,7 +14,6 @@ def hash_password(password: str) -> str:
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return hashlib.sha256(plain_password.encode()).hexdigest() == hashed_password
-    # return pwd_contex.verify(plain_password, hashed_password)
 
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()

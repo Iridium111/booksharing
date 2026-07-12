@@ -6,15 +6,11 @@ from sqlalchemy import TIMESTAMP, text
 
 
 class TimeStampMixin:
-    """
-    Миксин для автоматического добавления времени создания и обновления
-    """
-
-    # написали чтобы не писать created_at и updated_at каждый раз
+    """Миксин для автоматического добавления времени создания и обновления"""
 
     created_at: Mapped[datetime] = mapped_column(
         TIMESTAMP(timezone=False),
-        server_default=text("current_timestamp(0)"),        # Генерация времени сервера
+        server_default=text("current_timestamp(0)"),
     )
 
     updated_at: Mapped[datetime] = mapped_column(

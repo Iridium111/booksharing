@@ -3,7 +3,6 @@ from datetime import datetime, timezone
 
 from fastapi import Request
 from fastapi.responses import JSONResponse
-from starlette import status
 
 from app.core.exceptions import BookShareBaseException
 from app.schemas.error import ErrorDetail, ErrorResponse
