@@ -10,7 +10,6 @@ from app.models import User
 from app.core.database import get_async_session
 from app.repositories.book import BookRepository
 from app.schemas.book import BookResponse, BookCreate, BookUpdate
-from app.core.exceptions import ResourceNotFound
 from app.core.deps import get_current_user
 from app.core.config import settings
 
@@ -20,7 +19,7 @@ router = APIRouter(prefix='/books', tags=['Books'])
 async def create_book(
     book_data: BookCreate,
     session: AsyncSession = Depends(get_async_session),
-    current_user: User = Depends(get_current_user)):    # Как работает get_current_user?
+    current_user: User = Depends(get_current_user)):
     return await BookRepository.create(
         session,
         book_data,
@@ -39,7 +38,6 @@ async def get_books(session: AsyncSession = Depends(get_async_session),
                                          genre=genre,
                                          limit=limit,
                                          offset=offset)
-    # raise ResourceNotFound(resource="Book", detail={"book_id": 1})
 
 @router.patch("/{book_id}", response_model=BookResponse, status_code=200)
 async def update_book(

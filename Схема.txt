@@ -11,7 +11,7 @@ from _pyrepl.commands import refresh
   |                                        |
 
 access - токен доступа
-refres - токен обновления
+refresh - токен обновления
 
 access, refresh -
 

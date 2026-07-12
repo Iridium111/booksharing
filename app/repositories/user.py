@@ -3,7 +3,6 @@ from uuid import UUID
 from sqlalchemy import select, Sequence
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.database import session
 from app.models.user import User
 from app.schemas.user import UserCreate
 from app.core.security import hash_password

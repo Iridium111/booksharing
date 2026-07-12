@@ -11,6 +11,7 @@ class User(Base, TimeStampMixin):
     email: Mapped[str] = mapped_column(unique=True, nullable=False)
     hashed_password: Mapped[str] = mapped_column(nullable=False)
     refresh_token: Mapped[str | None] = mapped_column(nullable=True, default=None)
+    is_admin: Mapped[bool] = mapped_column(nullable=False, default=False)
 
     books = relationship("Book", back_populates="user")
 
