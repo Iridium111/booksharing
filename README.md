@@ -52,6 +52,7 @@ BookSharing — асинхронный REST API для размещения кн
 - Starlette Admin
 - Docker Compose
 - uv
+- pytest
 
 ## Архитектура
 
@@ -85,6 +86,7 @@ app/
 ├── static/         # загруженные обложки
 └── main.py         # создание FastAPI-приложения
 
+tests/              # автоматические тесты приложения
 migrations/         # миграции Alembic
 db/                 # Dockerfile PostgreSQL
 docker-compose.yml
@@ -233,7 +235,7 @@ Starlette Admin используется для просмотра и управ
 
 - роли пользователей;
 - кэширование через Redis;
-- автоматические тесты на Pytest;
+- автоматические тесты на Pytest (в процессе);
 - логирование;
 - развёртывание приложения.
 
