@@ -19,4 +19,14 @@ dependencies = [
     "starlette-admin[sql,sqla]>=0.16.1",
     "sqlmodel>=0.0.39",
     "itsdangerous>=2.2.0",
+    "pytest-asyncio>=1.4.0",
 ]
+
+[dependency-groups]
+dev = [
+    "httpx2>=2.5.0",
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

@@ -1,0 +1,37 @@
+from _pyrepl.commands import refresh
+
+Клиент                                  Сервер
+  |                                        |
+  |                                        |
+  |            login --->                  |
+  |         (email, password)              |
+  |             <------                    |
+  |         {access, refresh}              |
+  |                                        |
+  |                                        |
+
+access - токен доступа
+refresh - токен обновления
+
+access, refresh -
+
+    header:
+    {
+        "alg": SH256
+        "type": JWT (JSON WEB TOKER)
+    }
+
+    payload(полезная нагрузка):
+        {id_user, exp - время, когда токен истекает, 'iat' - время выдачи токена, "type"}
+
+    signature:
+        alg  = alg + secret
+        alg(header) + . + alg(payload)
+
+access - доступ к ресурсу (живет 15-60 минут), не храниться в БД
+refresh - обновляет access-токен (хранится 7 - infinite дней) по хорошему, храниться в БД
+
+GET:
+/api/v1/my_books
+Header:
+    Authorization: Bearer {access_token}

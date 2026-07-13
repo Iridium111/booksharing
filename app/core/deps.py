@@ -7,7 +7,7 @@ from app.core.database import get_async_session
 from app.core.security import decode_token
 from app.models import User
 
-oauth2_scheme = HTTPBearer() # "Authorization: Bearer <token> "
+oauth2_scheme = HTTPBearer()
 
 async def get_current_user(
         bearer = Depends(oauth2_scheme),
