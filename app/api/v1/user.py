@@ -14,7 +14,7 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
-@router.post("/", response_model=UserResponse, status_code=201)  # 201 - ресурс создан
+@router.post("/", response_model=UserResponse, status_code=201)
 async def create_user(user_data: UserCreate, session: AsyncSession = Depends(get_async_session)):
     return await UserRepository.create(session, user_data)
 

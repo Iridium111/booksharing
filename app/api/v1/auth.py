@@ -20,7 +20,6 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 @router.post("/register",
              response_model=UserResponse,
              status_code=status.HTTP_201_CREATED)
-
 async def register_user(
         user_data: UserCreate,
         session: AsyncSession = Depends(get_async_session)
